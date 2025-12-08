@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meu-servico
+  namespace: producao
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: meu-servico
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: meu-servico
+        version: "v2-problematica"
+    spec:
+      containers:
+      - name: meu-servico-container
+        image: linuxtips/memory-eater:0.1
+        # Simulando limites muito baixos para forçar OOMKill
+        resources:
+          limits:
+            memory: "32Mi"
+        # Sem probes = Kubernetes operando às cegas
+

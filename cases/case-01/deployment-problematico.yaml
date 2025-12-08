@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meu-servico
+  namespace: producao
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: meu-servico
+  template:
+    metadata:
+      labels:
+        app: meu-servico
+    spec:
+      containers:
+      - name: meu-servico-container
+        image: nginx:alpine
+        # PROBLEMA 1: Sem resources (requests/limits)
+        # PROBLEMA 2: Sem probes (liveness/readiness/startup)
+        # PROBLEMA 3: Deployment criado há muito tempo, sem seguir boas práticas
+
