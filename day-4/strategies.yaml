@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: strategy-deploy
+  name: strategy-deploy
+spec:
+  replicas: 10
+  selector:
+    matchLabels: 
+     app: strategy-deploy
+  strategy:
+    type: Recreate
+    #type: RollingUpdate
+      #rollingUpdate:
+      #maxSurge: 30%
+      #maxUnavailable: 20%
+  template:
+    metadata:
+      labels:
+        app: strategy-deploy
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14
+         
+

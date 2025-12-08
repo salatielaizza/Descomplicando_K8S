@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: probes-deploy
+  name: probes-deploy
+spec:
+  replicas: 10
+  selector:
+    matchLabels: 
+     app: probes-deploy
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 20%
+      maxUnavailable: 20%
+  template:
+    metadata:
+      labels:
+        app: probes-deploy
+    spec:
+      containers:
+      - image: nginx:1.17
+        name: nginx 
+        resources:
+          requests:
+            cpu: 0.3
+            memory: 64Mi
+          limits:
+            cpu: 0.8
+            memory: 256Mi
+        livenessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 10 # Quantos segundos vamos esperar para executar a primeira verificação
+          periodSeconds: 5        # A cada quantos segundos vamos executar a verificação
+          timeoutSeconds:  5      # Quantos segundos vamos esperar para considerar que a verificação falhou
+          failureThreshold: 2    # Quantos falhas consecutivas vamos aceitar antes de reiniciar o container
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10 # Quantos segundos vamos esperar para executar a primeira verificação
+          periodSeconds: 5        # A cada quantos segundos vamos executar a verificação
+          timeoutSeconds:  5      # Quantos segundos vamos esperar para considerar que a verificação falhou
+          failureThreshold: 2    # Quantos falhas consecutivas vamos aceitar antes de reiniciar o container
+        startupProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10 # Quantos segundos vamos esperar para executar a primeira verificação
+          timeoutSeconds:  5      # Quantos segundos vamos esperar para considerar que a verificação falhou
+          failureThreshold: 3    # Quantos falhas consecutivas vamos aceitar antes de reiniciar o container
+          successThreshold: 1    # Quantos falhas consecutivas vamos aceitar antes de reiniciar o container
+
+
+

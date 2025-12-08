@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: limits-deploy
+  name: limits-deploy
+spec:
+  replicas: 10
+  selector:
+    matchLabels: 
+     app: limits-deploy
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 20%
+      maxUnavailable: 20%
+  template:
+    metadata:
+      labels:
+        app: limits-deploy
+    spec:
+      containers:
+      - image: nginx:1.17
+        name: nginx 
+        resources:
+          requests:
+            cpu: 0.3
+            memory: 64Mi
+          limits:
+            cpu: 0.8
+            memory: 256Mi
