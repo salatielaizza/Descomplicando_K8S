@@ -10,6 +10,7 @@
 
 # Credenciales locales
 day-8/docker
+08-secrets-and-configmaps/docker
 daniel.conf
 *.kubeconfig
 .env
