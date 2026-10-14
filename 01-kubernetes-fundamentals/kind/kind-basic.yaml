@@ -1,0 +1,16 @@
+# Minimal multi-node kind cluster: 1 control plane + 2 workers.
+#
+# Usage:
+#   kind create cluster --config kind/kind-basic.yaml
+#   kind delete cluster --name dk8s-basic
+#
+# Tip: to pin the Kubernetes version (recommended for reproducible labs),
+# add `image: kindest/node:<version>` to each node, using an image listed in the
+# release notes of your kind version: https://github.com/kubernetes-sigs/kind/releases
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: dk8s-basic
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker

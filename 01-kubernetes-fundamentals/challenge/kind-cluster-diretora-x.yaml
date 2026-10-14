@@ -1,0 +1,13 @@
+# Challenge cluster: 1 control plane + 3 workers.
+#
+# Usage:
+#   kind create cluster --config challenge/kind-cluster-diretora-x.yaml
+#   kind delete cluster --name diretora-x
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: diretora-x
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker
+  - role: worker

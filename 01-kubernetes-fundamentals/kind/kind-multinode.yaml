@@ -1,0 +1,28 @@
+# Multi-node kind cluster: 1 control plane + 3 workers, with one port published
+# on the host so a NodePort Service can be reached from your browser.
+#
+# Traffic path:
+#   http://localhost:8080 (host)
+#     -> port 30080 on the control-plane node container (extraPortMappings)
+#     -> NodePort Service 30080 (manifests/service-nginx-nodeport.yaml)
+#     -> Pod port 80
+#
+# kube-proxy opens a NodePort on every node, so mapping it on a single node is
+# enough, wherever the Pod is scheduled.
+#
+# Usage:
+#   kind create cluster --config kind/kind-multinode.yaml
+#   kind delete cluster --name dk8s
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: dk8s
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30080   # NodePort inside the node container
+        hostPort: 8080         # port on your machine
+        listenAddress: "127.0.0.1"  # local only; use 0.0.0.0 to expose on your LAN
+        protocol: TCP          # HTTP is TCP (the original config used udp by mistake)
+  - role: worker
+  - role: worker
+  - role: worker

@@ -1,0 +1,30 @@
+# Challenge solution: an nginx Pod declared in a definition file.
+#
+# Usage:
+#   kubectl apply -f challenge/pod-diretora-x.yaml
+#   kubectl get pod diretora-x -o wide
+apiVersion: v1
+kind: Pod
+metadata:
+  name: diretora-x
+  labels:
+    run: diretora-x
+    app.kubernetes.io/name: diretora-x
+    app.kubernetes.io/part-of: descomplicando-k8s
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.30
+      imagePullPolicy: IfNotPresent
+      ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 250m
+          memory: 128Mi
+  restartPolicy: Always
