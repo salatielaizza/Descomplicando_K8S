@@ -1,0 +1,15 @@
+# Claves y certificados
+*.key
+*.pem
+*.crt
+*.csr
+
+# Secrets reales (los de ejemplo terminan en -exemplo.yaml)
+*secret*.yaml
+!*-exemplo.yaml
+
+# Credenciales locales
+day-8/docker
+daniel.conf
+*.kubeconfig
+.env
