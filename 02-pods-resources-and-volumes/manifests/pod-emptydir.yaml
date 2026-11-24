@@ -11,7 +11,8 @@ spec:
     volumeMounts:
     - mountPath: /giropops
       name: primeiro-emptydir
-    args:
+    - mountPath: /giropops2
+      name: segundo-emptydir
     resources: 
       limits:
         cpu: "1"
@@ -23,5 +24,8 @@ spec:
   restartPolicy: Always
   volumes:
   - name: primeiro-emptydir
+    emptyDir:
+      sizeLimit: 256Mi
+  - name: segundo-emptydir
     emptyDir:
       sizeLimit: 256Mi
